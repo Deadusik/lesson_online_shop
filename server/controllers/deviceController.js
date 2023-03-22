@@ -1,15 +1,26 @@
 const uuid = require('uuid')
 const path = require('path')
-const { Device } = require('../models/models')
+const { Device, DeviceInfo } = require('../models/models')
 const ApiError = require('../error/ApiError')
 
 class DeviceController {
     async create(req, res, next) {
         try {
-            const { name, price, brandId, typeId, info } = req.body
+            let { name, price, brandId, typeId, info } = req.body
             const { img } = req.files
             let fileName = uuid.v4() + '.jpg'
             img.mv(path.resolve(__dirname, '..', 'static', fileName))
+
+            if (info) {
+                info = JSON.parese()
+                info.forEach(item =>
+                    Device.create({
+                        title: item.title,
+                        description: item.description,
+                        deviceId: device.id
+                    })
+                )
+            }
 
             const device = await Device.create({
                 name,
@@ -27,11 +38,37 @@ class DeviceController {
     }
 
     async getAll(req, res) {
+        let { brandId, typeId, limit, page } = req.query
+        let devices
+        page = page || 1
+        limit = limit || 9
+        let offset = page * limit - limit
 
+        if (!brandId && !typeId) {
+            devices = await Device.findAndCountAll({ limit, offset })
+        }
+        else if (brandId && !typeId) {
+            devices = await Device.findAndCountAll({ where: { brandId }, limit, offset })
+        }
+        else if (!brandId && typeId) {
+            devices = await Device.findAndCountAll({ where: { typeId }, limit, offset })
+        }
+        else if (brandId && typeId) {
+            devices = await Device.findAndCountAll({ where: { typeId, brandId }, limit, offset })
+        }
+
+        return res.json(devices)
     }
 
     async getById(req, res) {
-
+        const { id } = req.params
+        const device = await Device.findOne(
+            {
+                where: { id },
+                include: [{ model: DeviceInfo, as: 'info' }]
+            },
+        )
+        return res.json(device)
     }
 }
 
