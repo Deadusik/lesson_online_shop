@@ -1,0 +1,10 @@
+.NavbarBootstrap {
+    &__NavLink {
+        text-decoration: none;
+        color: white;
+
+        &:hover {
+            color: gray;
+        }
+    }
+}

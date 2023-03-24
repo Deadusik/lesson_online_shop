@@ -1,9 +1,13 @@
+import AppRouter from "./components/AppRouter"
+import NavbarBootstrap from "./components/navbar/NavbarBootstrap";
+
 
 
 function App() {
   return (
     <div className="App">
-      WORKING
+      <NavbarBootstrap />
+      <AppRouter />
     </div>
   );
 }
