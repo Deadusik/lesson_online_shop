@@ -1,12 +1,15 @@
-import React from 'react'
-import Container from 'react-bootstrap/Container'
-import Nav from 'react-bootstrap/Nav'
-import Navbar from 'react-bootstrap/Navbar'
+import React, { useContext } from 'react'
 import { NavLink } from 'react-router-dom'
 import { SHOP_ROUTE } from '../../routes/paths'
+import { Context } from '../../index'
+import { observer } from 'mobx-react-lite'
 import styles from './NavbarBootstrap.module.scss'
+//bootstrap components
+import { Button, Navbar, Container, Nav } from 'react-bootstrap'
 
-const NavbarBootstrap = () => {
+const NavbarBootstrap = observer(() => {
+    const { user } = useContext(Context)
+
     return (
         <>
             <Navbar bg="dark" variant="dark">
@@ -14,15 +17,20 @@ const NavbarBootstrap = () => {
                     <Navbar.Brand>
                         <NavLink to={SHOP_ROUTE} className={styles.NavbarBootstrap__NavLink}>Shopvice</NavLink>
                     </Navbar.Brand>
-                    <Nav className="ml-auto">
-                        <Nav.Link href="#home">Home</Nav.Link>
-                        <Nav.Link href="#features">Features</Nav.Link>
-                        <Nav.Link href="#pricing">Pricing</Nav.Link>
-                    </Nav>
+                    {user.isAuth ?
+                        <Nav className='ml-auto'>
+                            <Button variant="info">Admin panel</Button>
+                            <Button variant="danger" className='ml-2'>Exit</Button>
+                        </Nav>
+                        :
+                        <Nav className='ml-auto'>
+                            <Button variant="success" onClick={() => user.setIsAuth(true)}>Login</Button>
+                        </Nav>
+                    }
                 </Container>
             </Navbar>
         </>
     )
-}
+})
 
 export default NavbarBootstrap
