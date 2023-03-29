@@ -15,11 +15,11 @@ export default class DeviceStore {
             { id: 4, name: 'asus' }
         ]
         this._devices = [
-            { id: 1, name: "iPhone 12 pro", price: 1200, rating: 5, img: 'o4OjCNmNeOhvsS1P.jpg' },
-            { id: 2, name: "iPhone 12 pro", price: 1200, rating: 5, img: '' },
-            { id: 3, name: "iPhone 12 pro", price: 1200, rating: 5, img: '' },
-            { id: 4, name: "iPhone 12 pro", price: 1200, rating: 5, img: '' },
-            { id: 5, name: "iPhone 12 pro", price: 1200, rating: 5, img: '' }
+            { id: 1, name: "iPhone 12 pro", price: 1200, rating: 5, img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/330px-No-Image-Placeholder.svg.png' },
+            { id: 2, name: "iPhone 12 pro", price: 1200, rating: 5, img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/330px-No-Image-Placeholder.svg.png' },
+            { id: 3, name: "iPhone 12 pro", price: 1200, rating: 5, img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/330px-No-Image-Placeholder.svg.png' },
+            { id: 4, name: "iPhone 12 pro", price: 1200, rating: 5, img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/330px-No-Image-Placeholder.svg.png' },
+            { id: 5, name: "iPhone 12 pro", price: 1200, rating: 5, img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/330px-No-Image-Placeholder.svg.png' }
         ]
         this._selectedType = {}
         this._selectedBrand = {}

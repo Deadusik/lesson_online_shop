@@ -1,6 +1,6 @@
 import Admin from "../components/pages/Admin/Admin";
-import Basket from "../components/pages/Basket/Basket";
-import Error from "../components/pages/Error/Error";
+import Basket from "../components/pages/basket/Basket";
+import Error from "../components/pages/error/Error";
 import { ADMIN_ROUTE, BASKET_ROUTE } from "./paths";
 
 export const authRoutes = [

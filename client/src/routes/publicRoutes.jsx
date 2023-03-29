@@ -1,7 +1,7 @@
-import Auth from "../components/pages/Auth/Auth";
-import Device from "../components/pages/Device/Device";
-import Error from "../components/pages/Error/Error";
-import Shop from "../components/pages/Shop/Shop";
+import Auth from "../components/pages/auth/Auth";
+import Device from "../components/pages/device/Device";
+import Error from "../components/pages/error/Error";
+import Shop from "../components/pages/shop/Shop";
 import { DEVICE_ROUTE, LOGIN_ROUTE, REGISTRATION_ROUTE, SHOP_ROUTE } from "./paths";
 
 export const publicRoutes = [

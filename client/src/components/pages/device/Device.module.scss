@@ -1,0 +1,49 @@
+.Device {
+    display: flex;
+
+    &__Raiting {
+        height: 300px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+    }
+
+    &__Star {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: inherit;
+    }
+
+    &__RaitingValue {
+        font-size: 5em;
+        color: gray
+    }
+
+    &__PriceCard {
+        height: 300px;
+    }
+
+    &__PriceCardButton {
+        width: 100%;
+    }
+
+    &__Caracteristics {
+        width: 100%;
+    }
+
+    &__CaracteristicsItem {
+        width: 100%;
+        display: flex;
+
+        &:nth-child(2) {
+            margin-top: 10px;
+        }
+
+        &:nth-child(odd) {
+            background-color: rgb(236, 236, 236);
+        }
+    }
+}
