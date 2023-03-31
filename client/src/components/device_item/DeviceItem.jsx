@@ -13,10 +13,10 @@ const DeviceItem = ({ device }) => {
             <Card className={[styles.DeviceItem__Card, 'p-3 d-flex justify-content-center'].join(' ')}
                 onClick={() => navigate(DEVICE_ROUTE + '/' + device.id)}
                 border='light'>
-                <Image width={150} height={150} src={device.img} />
-                <Col className='d-inline-flex align-items-center justify-content-between'>
+                <Image className='d-flex' src={device.img} />
+                <Col className='d-flex justify-content-between align-items-center'>
                     <h2 className={[styles.DeviceItem__Title, 'd-inline-flex'].join(' ')}>Samsung</h2>
-                    <Col className='d-inline-flex mt-2'>
+                    <Col className='d-flex flex-grow-0  mt-2'>
                         <p>{device.rating}</p>
                         <AiOutlineStar className='mt-1' />
                     </Col>

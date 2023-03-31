@@ -3,12 +3,12 @@ import { authRoutes } from '../routes/authRoutes'
 import { publicRoutes } from '../routes/publicRoutes'
 import { Routes, Route } from 'react-router-dom'
 import { Context } from '../index'
+import { observer } from 'mobx-react-lite'
 
 
-const AppRouter = () => {
-    const user = useContext(Context)
+const AppRouter = observer(() => {
+    const { user } = useContext(Context)
 
-    console.log(user)
     return (
         <>
             <Routes>
@@ -33,6 +33,6 @@ const AppRouter = () => {
             </Routes>
         </>
     )
-}
+})
 
 export default AppRouter;

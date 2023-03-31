@@ -5,6 +5,11 @@
 
     &__Title {
         font-size: 14px;
-        width: 100px;
+    }
+
+    &__Image {
+        max-width: 150px;
+        width: 100%;
+        height: auto;
     }
 }

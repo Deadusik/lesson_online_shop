@@ -10,6 +10,11 @@ const NavbarBootstrap = observer(() => {
     const { user } = useContext(Context)
     const navigate = useNavigate()
 
+    const logOut = () => {
+        user.setIsAuth(false)
+        navigate(LOGIN_ROUTE)
+    }
+
     return (
         <>
             <Navbar bg="dark" variant="dark">
@@ -20,7 +25,7 @@ const NavbarBootstrap = observer(() => {
                     {user.isAuth ?
                         <Nav className='ml-auto'>
                             <Button onClick={() => navigate(ADMIN_ROUTE)} variant="info">Admin panel</Button>
-                            <Button onClick={() => navigate(LOGIN_ROUTE)} variant="danger" className='ml-2'>Exit</Button>
+                            <Button onClick={() => logOut()} variant="danger" className='ml-3'>Exit</Button>
                         </Nav>
                         :
                         <Nav className='ml-auto'>
