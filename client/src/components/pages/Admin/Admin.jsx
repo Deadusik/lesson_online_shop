@@ -10,7 +10,7 @@ const Admin = () => {
     const [deviceVisible, setDeviceVisible] = useState(false)
 
     return (
-        <Container Container className='d-flex flex-column' >
+        <Container className='d-flex flex-column' >
             <Button variant='outline-dark' className='mt-2'
                 onClick={() => setTypeVisible(true)}>
                 Add Type

@@ -1,22 +1,24 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Container, Col, Image, Row, Card, Button } from 'react-bootstrap'
 import styles from './Device.module.scss'
 import { AiOutlineStar } from "react-icons/ai"
+import { getDeviceById } from '../../../http/deviceAPI'
+import { useParams } from 'react-router-dom'
 
 const Device = () => {
-    const device = { id: 1, name: "iPhone 12 pro", price: 1200, rating: 5, img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/330px-No-Image-Placeholder.svg.png' }
-    const description = [
-        { id: 1, title: 'Memory', value: '4gb' },
-        { id: 2, title: 'Camera', value: '12 mpx' },
-        { id: 3, title: 'Processor', value: 'Snapdergon 840' },
-        { id: 4, title: 'Count core', value: '4' },
-        { id: 5, title: 'Battry', value: '4000' },
-    ]
+    const [device, setDevice] = useState({ info: [] })
+
+    const { id } = useParams()
+
+    useEffect(() => {
+        getDeviceById(id)
+            .then(data => setDevice(data))
+    }, [])
 
     return (
         <Container className='d-flex flex-wrap'>
             <Col className='mt-4' md={4}>
-                <Image width={300} height={300} src={device.img} />
+                <Image width={300} height={300} src={process.env.REACT_APP_API_URL + device.img} />
             </Col>
             <Col className='mt-4' md={4}>
                 <Row>
@@ -36,7 +38,7 @@ const Device = () => {
             <Row className={styles.Device__Caracteristics}>
                 <h2>Caracteristics:</h2>
                 {
-                    description.map(item =>
+                    device.info.map(item =>
                         <Row key={item.id} className={styles.Device__CaracteristicsItem}>
                             <p>{item.title}: {item.value}</p>
                         </Row>

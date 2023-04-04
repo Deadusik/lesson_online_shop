@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, Modal, Form } from 'react-bootstrap'
+import { createType } from '../../http/typeAPI';
 
 const TypeModal = ({ show, onHide }) => {
+    const [name, setName] = useState('')
+
     return (
         <>
             <Modal show={show} onHide={onHide}>
@@ -12,6 +15,8 @@ const TypeModal = ({ show, onHide }) => {
                     <Form>
                         <Form.Control
                             placeholder={'Enter type name'}
+                            value={name}
+                            onChange={e => setName(e.target.value)}
                         />
                     </Form>
                 </Modal.Body>
@@ -19,7 +24,10 @@ const TypeModal = ({ show, onHide }) => {
                     <Button variant="secondary" onClick={onHide}>
                         Close
                     </Button>
-                    <Button variant="primary" onClick={onHide}>
+                    <Button variant="primary" onClick={() => {
+                        createType({ name })
+                        onHide()
+                    }}>
                         Save Changes
                     </Button>
                 </Modal.Footer>

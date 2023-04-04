@@ -1,10 +1,25 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import { Button, Modal, Form, Dropdown, Row, Col } from 'react-bootstrap'
 import { Context } from '../../index'
+import { createDevice } from '../../http/deviceAPI';
 
 const DeviceModal = ({ show, onHide }) => {
     const { device } = useContext(Context)
     const [info, setInfo] = useState([])
+
+    const [name, setName] = useState('')
+    const [price, setPrice] = useState()
+    const [rating, setRating] = useState()
+    const [img, setImg] = useState('')
+
+    const [selectedType, setSelectedType] = useState('none')
+    const [selectedBrand, setSelectedBrand] = useState('none')
+
+    const addDevice = () => {
+        createDevice(name, price, rating, img)
+        if (info.length > 0)
+            addInfo()
+    }
 
     const addInfo = () => {
         setInfo([...info, { title: '', value: '', number: Date.now() }])
@@ -22,30 +37,39 @@ const DeviceModal = ({ show, onHide }) => {
                 </Modal.Header>
                 <Modal.Body>
                     <Form>
-                        <Dropdown>
-                            <Dropdown.Toggle>Choice the type</Dropdown.Toggle>
-                            <Dropdown.Menu>
-                                {
-                                    device.types.map(type =>
-                                        <Dropdown.Item key={type.id}>
-                                            {type.name}
-                                        </Dropdown.Item>
-                                    )
-                                }
-                            </Dropdown.Menu>
-                        </Dropdown>
-                        <Dropdown className='mt-2'>
-                            <Dropdown.Toggle>Choice the brand</Dropdown.Toggle>
-                            <Dropdown.Menu>
-                                {
-                                    device.brands.map(brand =>
-                                        <Dropdown.Item key={brand.id}>
-                                            {brand.name}
-                                        </Dropdown.Item>
-                                    )
-                                }
-                            </Dropdown.Menu>
-                        </Dropdown>
+                        <Col className='d-flex justify-content-between align-items-center'>
+                            <Dropdown>
+                                <Dropdown.Toggle>Choice the type</Dropdown.Toggle>
+                                <Dropdown.Menu>
+                                    {
+                                        device.types.map(type =>
+                                            <Dropdown.Item key={type.id}
+                                                onSelect={e => {
+                                                    setSelectedType(e.target.value)
+                                                }}>
+                                                {type.name}
+                                            </Dropdown.Item>
+                                        )
+                                    }
+                                </Dropdown.Menu>
+                            </Dropdown>
+                            <h3>Selected type: {selectedType}</h3>
+                        </Col>
+                        <Col className='d-flex justify-content-between align-items-center'>
+                            <Dropdown className='mt-2'>
+                                <Dropdown.Toggle>Choice the brand</Dropdown.Toggle>
+                                <Dropdown.Menu>
+                                    {
+                                        device.brands.map(brand =>
+                                            <Dropdown.Item key={brand.id}>
+                                                {brand.name}
+                                            </Dropdown.Item>
+                                        )
+                                    }
+                                </Dropdown.Menu>
+                            </Dropdown>
+                            <h3>Selected brand: none</h3>
+                        </Col>
                         <Form.Control
                             className='mt-3'
                             placeholder='Enter device name'

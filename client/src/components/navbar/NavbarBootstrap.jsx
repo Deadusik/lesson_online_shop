@@ -11,6 +11,7 @@ const NavbarBootstrap = observer(() => {
     const navigate = useNavigate()
 
     const logOut = () => {
+        user.setUser({})
         user.setIsAuth(false)
         navigate(LOGIN_ROUTE)
     }
@@ -23,13 +24,13 @@ const NavbarBootstrap = observer(() => {
                         <NavLink to={SHOP_ROUTE} className={styles.NavbarBootstrap__NavLink}>Shopvice</NavLink>
                     </Navbar.Brand>
                     {user.isAuth ?
-                        <Nav className='ml-auto'>
+                        <Nav>
                             <Button onClick={() => navigate(ADMIN_ROUTE)} variant="info">Admin panel</Button>
-                            <Button onClick={() => logOut()} variant="danger" className='ml-3'>Exit</Button>
+                            <Button onClick={() => logOut()} variant="danger">Exit</Button>
                         </Nav>
                         :
                         <Nav className='ml-auto'>
-                            <Button variant="success" onClick={() => user.setIsAuth(true)}>Login</Button>
+                            <Button variant="success" onClick={() => navigate(LOGIN_ROUTE)}>Login</Button>
                         </Nav>
                     }
                 </Container>

@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, Modal, Form } from 'react-bootstrap'
+import { createBrand } from '../../http/brandAPI';
 
 const BrandModal = ({ show, onHide }) => {
+    const [name, setName] = useState('')
+
     return (
         <>
             <Modal show={show} onHide={onHide}>
@@ -12,6 +15,8 @@ const BrandModal = ({ show, onHide }) => {
                     <Form>
                         <Form.Control
                             placeholder={'Enter brand name'}
+                            value={name}
+                            onChange={e => setName(e.target.value)}
                         />
                     </Form>
                 </Modal.Body>
@@ -19,7 +24,10 @@ const BrandModal = ({ show, onHide }) => {
                     <Button variant="secondary" onClick={onHide}>
                         Close
                     </Button>
-                    <Button variant="primary" onClick={onHide}>
+                    <Button variant="primary" onClick={() => {
+                        createBrand({ name })
+                        onHide()
+                    }}>
                         Save Changes
                     </Button>
                 </Modal.Footer>

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Card, Col, Image, Row } from 'react-bootstrap'
+import { Card, Col, Image } from 'react-bootstrap'
 import styles from './DeviceItem.module.scss'
 import { AiOutlineStar } from "react-icons/ai";
 import { useNavigate } from 'react-router-dom'
@@ -13,7 +13,7 @@ const DeviceItem = ({ device }) => {
             <Card className={[styles.DeviceItem__Card, 'p-3 d-flex justify-content-center'].join(' ')}
                 onClick={() => navigate(DEVICE_ROUTE + '/' + device.id)}
                 border='light'>
-                <Image className='d-flex' src={device.img} />
+                <Image className='d-flex' src={process.env.REACT_APP_API_URL + device.img} />
                 <Col className='d-flex justify-content-between align-items-center'>
                     <h2 className={[styles.DeviceItem__Title, 'd-inline-flex'].join(' ')}>Samsung</h2>
                     <Col className='d-flex flex-grow-0  mt-2'>
