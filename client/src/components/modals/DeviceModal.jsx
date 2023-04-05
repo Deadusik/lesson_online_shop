@@ -1,32 +1,43 @@
-import React, { useContext, useRef, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Button, Modal, Form, Dropdown, Row, Col } from 'react-bootstrap'
 import { Context } from '../../index'
 import { createDevice } from '../../http/deviceAPI';
+import { observer } from 'mobx-react-lite';
 
-const DeviceModal = ({ show, onHide }) => {
+const DeviceModal = observer(({ show, onHide }) => {
     const { device } = useContext(Context)
-    const [info, setInfo] = useState([])
 
     const [name, setName] = useState('')
-    const [price, setPrice] = useState()
-    const [rating, setRating] = useState()
-    const [img, setImg] = useState('')
+    const [price, setPrice] = useState(0)
+    const [img, setImg] = useState(null)
+    const [info, setInfo] = useState([])
 
     const [selectedType, setSelectedType] = useState('none')
     const [selectedBrand, setSelectedBrand] = useState('none')
 
     const addDevice = () => {
-        createDevice(name, price, rating, img)
-        if (info.length > 0)
-            addInfo()
+        const formData = new FormData()
+        formData.append('name', name)
+        formData.append('price', `${price}`)
+        console.log(img)
+        formData.append('img', img)
+        formData.append('brandId', device.selectedBrand.id)
+        formData.append('typeId', device.selectedType.id)
+        formData.append('info', JSON.stringify(info))
+
+        createDevice(formData).then(() => onHide())
     }
 
     const addInfo = () => {
-        setInfo([...info, { title: '', value: '', number: Date.now() }])
+        setInfo([...info, { title: '', description: '', number: Date.now() }])
     }
 
     const removeInfo = (number) => {
         setInfo(info.filter(item => item.number !== number))
+    }
+
+    const changeInfo = (key, description, num) => {
+        setInfo(info.map(item => item.number === num ? { ...item, [key]: description } : item))
     }
 
     return (
@@ -44,8 +55,10 @@ const DeviceModal = ({ show, onHide }) => {
                                     {
                                         device.types.map(type =>
                                             <Dropdown.Item key={type.id}
-                                                onSelect={e => {
-                                                    setSelectedType(e.target.value)
+                                                onClick={() => {
+                                                    console.log('device', device)
+                                                    device.setSelectedType(type)
+                                                    setSelectedType(type.name)
                                                 }}>
                                                 {type.name}
                                             </Dropdown.Item>
@@ -53,7 +66,7 @@ const DeviceModal = ({ show, onHide }) => {
                                     }
                                 </Dropdown.Menu>
                             </Dropdown>
-                            <h3>Selected type: {selectedType}</h3>
+                            <h4>Selected type: {selectedType}</h4>
                         </Col>
                         <Col className='d-flex justify-content-between align-items-center'>
                             <Dropdown className='mt-2'>
@@ -61,27 +74,37 @@ const DeviceModal = ({ show, onHide }) => {
                                 <Dropdown.Menu>
                                     {
                                         device.brands.map(brand =>
-                                            <Dropdown.Item key={brand.id}>
+                                            <Dropdown.Item key={brand.id}
+                                                onClick={() => {
+                                                    device.setSelectedBrand(brand)
+                                                    setSelectedBrand(brand.name)
+                                                }}>
                                                 {brand.name}
                                             </Dropdown.Item>
                                         )
                                     }
                                 </Dropdown.Menu>
                             </Dropdown>
-                            <h3>Selected brand: none</h3>
+                            <h4>Selected brand: {selectedBrand}</h4>
                         </Col>
                         <Form.Control
                             className='mt-3'
                             placeholder='Enter device name'
+                            onChange={e => setName(e.target.value)}
                         />
                         <Form.Control
                             className='mt-3'
                             placeholder='Enter device price'
                             type='number'
+                            onChange={e => setPrice(Number(e.target.value))}
                         />
                         <Form.Control
                             className='mt-3'
                             type='file'
+                            onChange={e => {
+                                console.log(e.target.files[0])
+                                setImg(e.target.files[0])
+                            }}
                         />
                         <hr />
                         <Button variant='outline-dark'
@@ -96,13 +119,15 @@ const DeviceModal = ({ show, onHide }) => {
                                         <Form>
                                             <Form.Control
                                                 placeholder='Name'
+                                                onChange={(e) => changeInfo('title', e.target.value, item.number)}
                                             />
                                         </Form>
                                     </Col>
                                     <Col md={4}>
                                         <Form>
                                             <Form.Control
-                                                placeholder='Value'
+                                                placeholder='description'
+                                                onChange={(e) => changeInfo('description', e.target.value, item.number)}
                                             />
                                         </Form>
                                     </Col>
@@ -121,13 +146,13 @@ const DeviceModal = ({ show, onHide }) => {
                     <Button variant="secondary" onClick={onHide}>
                         Close
                     </Button>
-                    <Button variant="primary" onClick={onHide}>
+                    <Button variant="primary" onClick={addDevice}>
                         Save Changes
                     </Button>
                 </Modal.Footer>
             </Modal>
         </>
     );
-}
+})
 
 export default DeviceModal 
