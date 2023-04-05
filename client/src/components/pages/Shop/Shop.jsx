@@ -8,6 +8,7 @@ import { Context } from '../../../index'
 import { getTypes } from '../../../http/typeAPI'
 import { getBrands } from '../../../http/brandAPI'
 import { getDevices } from '../../../http/deviceAPI'
+import PaginationBootstrap from '../../pagination/PaginationBootstrap'
 
 const Shop = observer(() => {
     const { device } = useContext(Context)
@@ -21,11 +22,16 @@ const Shop = observer(() => {
             .then(data =>
                 device.setBrands(data)
             )
-        getDevices()
-            .then((data) =>
-                device.setDevices(data.rows)
-            )
+
     }, [])
+
+    useEffect(() => {
+        getDevices(device.selectedType.id, device.selectedBrand.id, device.page, 4)
+            .then((data) => {
+                device.setDevices(data.rows)
+                device.setTotalCount(data.count)
+            })
+    }, [device.page, device.selectedBrand, device.selectedType])
 
     return (
         <Container>
@@ -36,6 +42,7 @@ const Shop = observer(() => {
                 <Col md={9}>
                     <BrandBar />
                     <DeviceList />
+                    <PaginationBootstrap />
                 </Col>
             </Row>
         </Container>

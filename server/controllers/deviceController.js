@@ -25,7 +25,7 @@ class DeviceController {
             if (info) {
                 info = JSON.parse(info)
                 info.forEach(item =>
-                    Device.create({
+                    DeviceInfo.create({
                         title: item.title,
                         description: item.description,
                         deviceId: device.id
@@ -44,7 +44,7 @@ class DeviceController {
         let { brandId, typeId, limit, page } = req.query
         let devices
         page = page || 1
-        limit = limit || 9
+        limit = limit || 12
         let offset = page * limit - limit
 
         if (!brandId && !typeId) {

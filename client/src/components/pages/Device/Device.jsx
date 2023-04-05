@@ -40,7 +40,7 @@ const Device = () => {
                 {
                     device.info.map(item =>
                         <Row key={item.id} className={styles.Device__CaracteristicsItem}>
-                            <p>{item.title}: {item.value}</p>
+                            <p>{item.title}: {item.description}</p>
                         </Row>
                     )
                 }
